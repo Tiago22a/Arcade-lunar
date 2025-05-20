@@ -3,6 +3,7 @@ using back_end.Data;
 using back_end.DTOs;
 using back_end.Models;
 using back_end.Services;
+using MercadoPago.Resource.Preference;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ public class OrderController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> Create(ICollection<OrderItemDto> orderItems)
+    public async Task<IActionResult> Create(ICollection<CreateOrderItemDto> orderItems)
     {
         string userEmail = User.FindFirstValue(ClaimTypes.Email)!;
         int orderId = await _orderService.CreateOrder(orderItems, userEmail);

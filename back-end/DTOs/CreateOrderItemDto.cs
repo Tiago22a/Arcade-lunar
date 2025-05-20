@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace back_end.DTOs;
 
-public class OrderItemDto
+public class CreateOrderItemDto
 {
     [Required]
     public int Quantity  { get; set; }

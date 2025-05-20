@@ -6,8 +6,12 @@ using back_end.Services;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MercadoPago.Config;
 
 var builder = WebApplication.CreateBuilder(args);
+
+MercadoPagoConfig.AccessToken = 
+    builder.Configuration.GetValue<string>("MercadoPago:AccessToken");
 
 // Add services to the container.
 
@@ -25,6 +29,8 @@ builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ProductTypeService>();
+
+builder.Services.AddSingleton<MercadoPagoService>();
 
 builder.Services.Configure<EmailOptions>(
     builder.Configuration.GetSection("Email"));
