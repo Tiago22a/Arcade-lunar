@@ -54,6 +54,17 @@ public class AuthService
         
         return await _userManager.GenerateEmailConfirmationTokenAsync(user);
     }
+    
+    public async Task LoginUser(LoginUserDto userDto)
+    {
+        SignInResult result = await _signInManager.PasswordSignInAsync(
+            userDto.Email,
+            userDto.Password,
+            false,
+            false);
+        
+        if (!result.Succeeded) throw new InvalidUserException();   
+    }
 
     public async Task ConfirmEmail(string userId, string token)
     {
