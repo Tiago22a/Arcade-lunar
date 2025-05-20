@@ -22,11 +22,11 @@ public class OrderController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> CreateOrder(ICollection<OrderItemDto> orderItems)
+    public async Task<IActionResult> Create(ICollection<OrderItemDto> orderItems)
     {
         string userEmail = User.FindFirstValue(ClaimTypes.Email)!;
-        await _orderService.CreateOrder(orderItems, userEmail);
+        int orderId = await _orderService.CreateOrder(orderItems, userEmail);
         
-        return Ok();
+        return Created($"/order/{orderId}", orderItems);
     }
 }

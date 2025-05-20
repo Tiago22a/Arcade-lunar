@@ -23,6 +23,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ProductTypeService>();
 
 builder.Services.Configure<EmailOptions>(
     builder.Configuration.GetSection("Email"));
