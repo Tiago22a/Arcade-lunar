@@ -1,6 +1,8 @@
 using back_end.Data;
 using back_end.Exceptions;
 using back_end.Models;
+using back_end.Options;
+using back_end.Services;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,8 +15,16 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<EmailService>();
+
+builder.Services.Configure<EmailOptions>(
+    builder.Configuration.GetSection("Email"));
 
 builder.Services.AddAuthorization();
 
