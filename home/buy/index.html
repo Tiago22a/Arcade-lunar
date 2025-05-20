@@ -3,53 +3,130 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Product • Spocket‑Style Store</title>
+  <title>Product • Arcade Lunar</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    body{font-family:'Poppins',sans-serif;background:#0d0d0d;color:#fff;overflow-x:hidden;}
-    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:#8b5cf6;border-radius:10px}
-    .arrow-btn{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;background:#a855f7;display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
-    .arrow-btn:hover{background:#9333ea}
-    .thumbnail{width:60px;height:60px;background:#262626;border-radius:8px;cursor:pointer;opacity:.6}
-    .thumbnail.active,.thumbnail:hover{opacity:1;border:2px solid #a855f7}
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #8b5cf6;
+      border-radius: 10px;
+    }
+
+    .arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #a855f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .arrow-btn:hover {
+      background: #9333ea;
+    }
+
+    .thumbnail {
+      width: 60px;
+      height: 60px;
+      background: #262626;
+      border-radius: 8px;
+      cursor: pointer;
+      opacity: 0.6;
+    }
+
+    .thumbnail.active,
+    .thumbnail:hover {
+      opacity: 1;
+      border: 2px solid #a855f7;
+    }
+
+    #chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      background-color: #0d0d0d;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+    }
+
+    #chat-widget input {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      outline: none;
+      background-color: #1a1a1a;
+      color: white;
+      font-size: 14px;
+    }
+
+    #chat-widget button {
+      width: 100%;
+      background-color: #0052cc;
+      color: white;
+      border: none;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #chat-widget button:hover {
+      background-color: #003d99;
+    }
   </style>
 </head>
 <body>
-  <!-- Botão de voltar -->
+  <!-- Back button -->
   <header class="p-4 flex items-center">
     <a href="../index.html" class="flex items-center gap-2 text-purple-400 hover:text-purple-300 text-sm">
       ← Back
     </a>
   </header>
 
-  <!-- produto -->
+  <!-- Product -->
   <main class="max-w-7xl mx-auto px-4 lg:px-8 grid lg:grid-cols-2 gap-10 pb-16">
-    <!-- fotos -->
+    <!-- Images -->
     <div class="relative">
-      <!-- setas -->
       <button class="arrow-btn left-0 -translate-x-1/2">‹</button>
       <button class="arrow-btn right-0 translate-x-1/2">›</button>
-      <!-- main image -->
+
       <div class="bg-[#1e1e1e] aspect-square flex items-center justify-center rounded-xl overflow-hidden">
-        <img id="mainImg" src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Play_Arrow_logo.png" class="w-40" alt="product"/>
+        <img id="mainImg" src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Play_Arrow_logo.png" class="w-40" alt="product" />
       </div>
-      <!-- thumbs -->
+
       <div class="flex gap-3 mt-4">
-        <img src="" class="thumbnail active"/>
-        <img src="" class="thumbnail"/>
-        <img src="" class="thumbnail"/>
-        <img src="" class="thumbnail"/>
+        <img src="" class="thumbnail active" />
+        <img src="" class="thumbnail" />
+        <img src="" class="thumbnail" />
+        <img src="" class="thumbnail" />
       </div>
     </div>
 
-    <!-- INFO -->
+    <!-- Info -->
     <div class="flex flex-col justify-start">
       <p class="text-xs tracking-widest text-gray-400 uppercase mb-1">Games</p>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-wide leading-tight">Name Product Here</h1>
-      <p class="mt-3 text-sm">of <span class="line-through">R$ 69,00</span> for just <span class="text-purple-400 font-bold">R$ 29,00</span></p>
-      <p class="mt-2 text-xs text-gray-400">Until 6x of 11,50 Interest free</p>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-wide leading-tight">Product Name Here</h1>
+      <p class="mt-3 text-sm">from <span class="line-through">R$ 69.00</span> to only <span class="text-purple-400 font-bold">R$ 29.00</span></p>
+      <p class="mt-2 text-xs text-gray-400">Up to 6x of 11.50 with no interest</p>
       <p class="mt-2 text-green-500 text-sm font-semibold">Free Shipping</p>
 
       <h3 class="mt-6 text-sm font-semibold uppercase tracking-wider">Other gifts</h3>
@@ -68,11 +145,40 @@
     </div>
   </main>
 
-  <!-- REVIEWS -->
+  <!-- Chat  -->
+  <div id="chat-widget">
+    <input type="text" id="msgInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <!-- Reviews -->
   <section class="max-w-7xl mx-auto px-4 lg:px-8 pb-20">
-    <h2 class="text-xl font-extrabold uppercase tracking-widest mb-2">Review</h2>
+    <h2 class="text-xl font-extrabold uppercase tracking-widest mb-2">Reviews</h2>
     <p class="text-yellow-400 text-lg">★★★★★</p>
   </section>
 
+  <!-- Chat Script -->
+  <script>
+    function sendMessage() {
+      const msg = document.getElementById("msgInput").value.trim();
+      if (!msg) return;
+
+      fetch("", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "message=" + encodeURIComponent(msg)
+      })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById("msgInput").value = "";
+        } else {
+          alert("Error sending message.");
+        }
+      })
+      .catch(() => alert("Connection error."));
+    }
+  </script>
 </body>
 </html>
