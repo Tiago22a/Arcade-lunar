@@ -13,4 +13,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductType> ProductTypes { get; set; }
     public DbSet<Review> Reviews { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 }

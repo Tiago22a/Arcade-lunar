@@ -22,6 +22,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<OrderService>();
 
 builder.Services.Configure<EmailOptions>(
     builder.Configuration.GetSection("Email"));
@@ -42,6 +43,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.SameSite = SameSiteMode.Lax;
     
+    options.ExpireTimeSpan = TimeSpan.FromHours(1);
     options.SlidingExpiration = true;
 });
 

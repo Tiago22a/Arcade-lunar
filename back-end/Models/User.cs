@@ -10,4 +10,7 @@ public class User : IdentityUser
     public string Name { get; set; } = "";
     
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
+    
+    [Required]
+    public ICollection<Order> Orders { get; set; } = new List<Order>();
 }
