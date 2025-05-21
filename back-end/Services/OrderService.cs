@@ -47,7 +47,7 @@ public class OrderService
             Status = "payment_pending",
             DateCreated = DateTime.Now,
             OrderItems = resolvedOrderItems,
-            MercadoPagoPreference = preference
+            MercadoPagoPreferenceId = preference.Id
         };
 
         await _context.Orders.AddAsync(order);

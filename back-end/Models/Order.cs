@@ -19,7 +19,7 @@ public class Order
     [Precision(18, 2)]
     public decimal TotalPrice { get; set; }
     
-    public Preference? MercadoPagoPreference { get; set; }
+    public string MercadoPagoPreferenceId { get; set; }
     
     [Required]
     public User? User { get; set; }
