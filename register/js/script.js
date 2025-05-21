@@ -1,4 +1,4 @@
-import fetchClient from "../../../shared/util/fetchClient.js";
+import fetchClient from "../../shared/util/fetchClient.js";
 
 // Estado centralizado do formulário
 const state = {
@@ -227,7 +227,7 @@ form.addEventListener("submit", async function (event) {
 
 document
 	.querySelector("#closePopupBtn")
-	.addEventListener("click", window.location.replace("/login"));
+	.addEventListener("click", () => window.location.replace("/login"));
 
 // Validação de campo
 function validateField(field) {

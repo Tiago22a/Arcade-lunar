@@ -106,3 +106,14 @@ button:hover {
 .recovery-link a:hover {
 	text-decoration: underline;
 }
+
+.input-error {
+	border: 2px solid #e53e3e !important;
+}
+
+.error-message {
+	color: #e53e3e;
+	font-size: 0.9em;
+	margin-bottom: 8px;
+	margin-top: -12px;
+}

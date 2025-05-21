@@ -148,3 +148,30 @@ button:disabled {
 	margin-bottom: 8px;
 	margin-top: -12px;
 }
+
+button[type="submit"] {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* exemplo: adicione ao seu CSS global */
+/* .spinner { ... } */
+.spinner {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border: 2px solid #fff;
+	border-top: 2px solid #3498db;
+	border-radius: 50%;
+	animation: spin 0.7s linear infinite;
+	vertical-align: middle;
+}
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
