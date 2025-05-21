@@ -41,4 +41,18 @@ public class AuthController : ControllerBase
         
         return Ok(new { success = true }); 
     }
+
+    [HttpPost("resend-confirmation")]
+    public async Task<IActionResult> ResendConfirmationEmail(string userId)
+    {
+        ResendConfirmationDto resendConfirmationDto =
+            await _authService.GenerateEmailConfirmationTokenAsync(userId);
+        
+        await _emailService.SendConfirmationEmail(
+            resendConfirmationDto.Email,
+            resendConfirmationDto.Name,
+            resendConfirmationDto.Token);
+        
+        return Ok(new { success = true });
+    }
 }

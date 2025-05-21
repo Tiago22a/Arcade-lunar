@@ -54,6 +54,23 @@ public class AuthService
         
         return await _userManager.GenerateEmailConfirmationTokenAsync(user);
     }
+
+    public async Task<ResendConfirmationDto> GenerateEmailConfirmationTokenAsync(string userId)
+    {
+        User user = await _userManager.FindByEmailAsync(userId)
+            ?? throw new UserNotFoundException(userId);
+        
+        string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+        ResendConfirmationDto resendConfirmationDto = new ResendConfirmationDto
+        {
+            Token = token,
+            Email = user.Email!,
+            Name = user.Name!
+        };
+        
+        return resendConfirmationDto;
+    }
     
     public async Task LoginUser(LoginUserDto userDto)
     {
