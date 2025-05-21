@@ -1,0 +1,132 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background-color: #0d0d0d;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	color: #ffffff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.signup-container {
+	background-color: #1a1a1a;
+	padding: 40px;
+	border-radius: 12px;
+	width: 100%;
+	max-width: 400px;
+	box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.signup-container h1 {
+	text-align: center;
+	margin-bottom: 24px;
+	font-size: 28px;
+	color: #e6e6e6;
+}
+
+label {
+	display: block;
+	margin-bottom: 6px;
+	font-weight: 500;
+}
+
+input {
+	width: 100%;
+	padding: 12px;
+	margin-bottom: 18px;
+	border: none;
+	border-radius: 8px;
+	background-color: #333333;
+	color: white;
+	font-size: 14px;
+}
+
+input:focus {
+	outline: 2px solid #6666ff;
+}
+
+button {
+	width: 100%;
+	padding: 14px;
+	background-color: #6666ff;
+	border: none;
+	border-radius: 8px;
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+button:hover {
+	background-color: #5555dd;
+}
+
+.login-link {
+	text-align: center;
+	margin-top: 16px;
+	font-size: 14px;
+	color: #cccccc;
+}
+
+.login-link a {
+	color: #8888ff;
+	text-decoration: none;
+}
+
+.login-link a:hover {
+	text-decoration: underline;
+}
+
+.logo {
+	width: 80px;
+	height: auto;
+	display: block;
+	margin: 0 auto;
+}
+
+/* Popup styles */
+#confirmationPopup {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.6);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 9999;
+}
+
+#confirmationPopup.hidden {
+	display: none;
+}
+
+#confirmationPopup .popup {
+	background: #1a1a1a;
+	color: white;
+	border-radius: 12px;
+	padding: 24px;
+	width: 90%;
+	max-width: 400px;
+	text-align: center;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+#confirmationPopup button {
+	background-color: #8b5cf6;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 8px;
+	color: white;
+	font-weight: bold;
+	margin-top: 16px;
+	cursor: pointer;
+}
+
+#confirmationPopup button:hover {
+	background-color: #7c3aed;
+}

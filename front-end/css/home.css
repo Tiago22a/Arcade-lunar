@@ -1,0 +1,11 @@
+body {
+	font-family: "Poppins", sans-serif;
+}
+/* scrollbar thin purple */
+::-webkit-scrollbar {
+	width: 6px;
+}
+::-webkit-scrollbar-thumb {
+	background: #8b5cf6;
+	border-radius: 10px;
+}
