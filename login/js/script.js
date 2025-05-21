@@ -1,3 +1,5 @@
+import fetchClient from "../../shared/util/fetchClient.js";
+
 // Estado centralizado para login
 const loginState = {
 	form: {
@@ -42,37 +44,65 @@ const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 
 const updateFormInvalid = (obj) =>
-	(obj.form.invalid = Object.keys(obj).some(k => k !== "form" && obj[k].invalid));
+	(obj.form.invalid = Object.keys(obj).some(
+		(k) => k !== "form" && obj[k].invalid
+	));
 
 const updateFieldInvalid = (error, fieldObj) =>
 	(fieldObj.invalid = !!error.isActive);
 
 const validateFieldErrors = (errors, value, fieldName, obj) => {
-	errors.forEach(error => {
+	errors.forEach((error) => {
 		error.isActive = error.validator(value);
 		updateFieldInvalid(error, obj[fieldName]);
 	});
 	updateFormInvalid(obj);
 };
 
+let invalidCredentialsErrorElem = null;
+
+function removeInvalidCredentialsError() {
+	if (invalidCredentialsErrorElem) {
+		invalidCredentialsErrorElem.remove();
+		invalidCredentialsErrorElem = null;
+	}
+}
+
+function showInvalidCredentialsError() {
+	removeInvalidCredentialsError();
+	const btn = form.querySelector('button[type="submit"]');
+	invalidCredentialsErrorElem = document.createElement("div");
+	invalidCredentialsErrorElem.className = "error-message";
+	invalidCredentialsErrorElem.style.textAlign = "center";
+	invalidCredentialsErrorElem.style.marginBottom = "12px";
+	invalidCredentialsErrorElem.textContent = "Invalid email or password.";
+	btn.parentNode.insertBefore(invalidCredentialsErrorElem, btn);
+
+	// Adiciona borda vermelha nos dois inputs
+	emailInput.classList.add("input-error");
+	passwordInput.classList.add("input-error");
+}
+
 function handleInput(field, value) {
 	loginState[field].value = value;
 	loginState.form.dirty = true;
-	validateFieldErrors(
-		loginState[field].errors,
-		value,
-		field,
-		loginState
-	);
+	removeInvalidCredentialsError();
+	emailInput.classList.remove("input-error");
+	passwordInput.classList.remove("input-error");
+	validateFieldErrors(loginState[field].errors, value, field, loginState);
 	renderErrors(field);
 }
 
-emailInput.addEventListener("input", (e) => handleInput("email", e.target.value));
-passwordInput.addEventListener("input", (e) => handleInput("password", e.target.value));
+emailInput.addEventListener("input", (e) =>
+	handleInput("email", e.target.value)
+);
+passwordInput.addEventListener("input", (e) =>
+	handleInput("password", e.target.value)
+);
 
-form.addEventListener("submit", function (event) {
+form.addEventListener("submit", async function (event) {
 	event.preventDefault();
-	["email", "password"].forEach(field => {
+	["email", "password"].forEach((field) => {
 		validateFieldErrors(
 			loginState[field].errors,
 			loginState[field].value,
@@ -85,8 +115,22 @@ form.addEventListener("submit", function (event) {
 
 	if (loginState.form.invalid || !loginState.form.dirty) return;
 
-	// Aqui você pode fazer a requisição de login normalmente
-	form.submit();
+	const formData = {
+		email: loginState.email.value.trim(),
+		password: loginState.password.value.trim(),
+	};
+
+	const res = await fetchClient("/auth/login", {
+		method: "POST",
+		body: JSON.stringify(formData),
+	});
+
+	if (res.status === 401) {
+		showInvalidCredentialsError();
+		return;
+	}
+
+	// ...continue login flow...
 });
 
 // Renderiza erros do campo
@@ -128,7 +172,7 @@ function invalidEmail(value) {
 }
 
 // Inicializa valores se já preenchidos (ex: autocomplete)
-["email", "password"].forEach(field => {
+["email", "password"].forEach((field) => {
 	const input = document.getElementById(field);
 	if (input.value) {
 		loginState[field].value = input.value;
