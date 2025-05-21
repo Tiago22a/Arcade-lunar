@@ -12,25 +12,23 @@ public class EmailService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly LinkGenerator _linkGenerator;
     private readonly EmailOptions _emailOptions;
+    private readonly string _frontUrl;
 
     public EmailService(
         IHttpContextAccessor httpContextAccessor,
         LinkGenerator linkGenerator,
-        IOptions<EmailOptions> emailOptions)
+        IOptions<EmailOptions> emailOptions,
+        IConfiguration configuration)
     {
         _httpContextAccessor = httpContextAccessor;
         _linkGenerator = linkGenerator;
         _emailOptions = emailOptions.Value;
+        _frontUrl = configuration.GetValue<string>("FrontEndUrl")!;
     }
 
     public async Task SendConfirmationEmail(string email, string name, string token)
     {
-        var confirmationUrl = _linkGenerator.GetUriByAction(
-            httpContext:  _httpContextAccessor.HttpContext!,
-            action: "ConfirmEmail",
-            controller: "auth",
-            values: new { userId = email, token = WebUtility.UrlEncode(token) },
-            scheme: _httpContextAccessor.HttpContext?.Request.Scheme);
+        var confirmationUrl = $"{_frontUrl}/verify-email";
         
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(_emailOptions.EmailName, _emailOptions.User));
