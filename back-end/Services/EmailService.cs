@@ -28,7 +28,7 @@ public class EmailService
 
     public async Task SendConfirmationEmail(string email, string name, string token)
     {
-        var confirmationUrl = $"{_frontUrl}/verify-email";
+        var confirmationUrl = $"{_frontUrl}/verify-email?userId={email}&token={token}";
         
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(_emailOptions.EmailName, _emailOptions.User));
