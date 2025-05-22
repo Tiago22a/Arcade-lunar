@@ -24,4 +24,32 @@ public class ProductController : ControllerBase
         
         return Created($"/product/{productId}", product);
     }
+
+    [HttpGet("type/{id}")]
+    public async Task<IActionResult> GetProductsByType(int id, int page = 1, int pageSize = 10)
+    {
+        var listProductsByTypeDto = 
+            await _productService.GetProductsByType(
+                id,
+                page,
+                pageSize);
+        
+        return Ok(listProductsByTypeDto);
+    }
+
+    [HttpGet("type/{id}/quantity")]
+    public async Task<IActionResult> GetProductsByTypeQuantity(int id)
+    {
+        int quantity = await _productService.GetProductsByTypeQuantity(id);
+        
+        return Ok(quantity);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProduct(int id)
+    {
+        var product = await _productService.GetProduct(id);
+        
+        return Ok(product);
+    }
 }
