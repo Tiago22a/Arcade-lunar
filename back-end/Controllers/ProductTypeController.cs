@@ -1,5 +1,6 @@
 using back_end.DTOs;
 using back_end.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace back_end.Controllers;
@@ -21,5 +22,14 @@ public class ProductTypeController : ControllerBase
         int typeId = await _productTypeService.CreateProductType(typeDto);
         
         return Created($"/product-type/{typeId}", typeDto);
+    }
+
+    [HttpGet]
+    [Authorize]
+    public IActionResult GetTypes()
+    {
+        var listProductTypesDto = _productTypeService.GetAllProductTypes();
+        
+        return Ok(listProductTypesDto);
     }
 }

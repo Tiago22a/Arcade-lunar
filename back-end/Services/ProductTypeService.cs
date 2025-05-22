@@ -25,4 +25,17 @@ public class ProductTypeService
         
         return productType.Id;
     }
+
+    public ICollection<ShowProductTypeDTO> GetAllProductTypes()
+    {
+        List<ShowProductTypeDTO> listProductTypeDto = _context.ProductTypes
+            .Select(pt => new ShowProductTypeDTO
+            {
+                Id = pt.Id,
+                Name = pt.Name,
+            })
+            .ToList();
+
+        return listProductTypeDto;
+    }
 }
