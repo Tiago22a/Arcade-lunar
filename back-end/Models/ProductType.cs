@@ -11,5 +11,6 @@ public class ProductType
     [MaxLength(255)]
     public string Name { get; set; } = "";
     
+    [JsonIgnore]
     public ICollection<Product> Products { get; set; } = new List<Product>();
 }

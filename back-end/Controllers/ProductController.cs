@@ -52,4 +52,12 @@ public class ProductController : ControllerBase
         
         return Ok(product);
     }
+
+    [HttpGet("{id}/miniatures/quantity")]
+    public async Task<IActionResult> GetMiniaturesQuantity(int id)
+    {
+        int imagesAmount = await _productService.GetMiniaturesQuantity(id);
+        
+        return Ok(imagesAmount);
+    }
 }

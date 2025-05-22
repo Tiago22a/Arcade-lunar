@@ -75,4 +75,14 @@ public class ProductService
         
         return product;
     }
+
+    public async Task<int> GetMiniaturesQuantity(int id)
+    {
+        var product = await _context.Products.FindAsync(id)
+            ?? throw new ProductNotFoundException(id);;
+        
+        string directoryPath = $"wwwroot/images/products/{id}";
+        
+        return Directory.GetFiles(directoryPath).Length;
+    }
 }

@@ -3,9 +3,14 @@ import { urlBaseImg } from "/shared/util/geral.js";
 
 const PAGE_SIZE = 10; // Número de produtos por página
 
+const paginationDiv = document.getElementById("paginationDiv");
+
 async function loadProductsByType(typeId, page = 1) {
 	const grid = document.getElementById("productGrid");
 	if (!grid) return;
+
+	paginationDiv.innerHTML = ""; // Limpa a paginação existente
+
 
 	// Mostra spinner enquanto carrega produtos
 	grid.innerHTML = `
@@ -20,6 +25,10 @@ async function loadProductsByType(typeId, page = 1) {
 		credentials: "include",
 		headers: { Accept: "application/json" },
 	});
+	if (quantityRes.status === 401) {
+		window.location.replace("/login");
+		return;
+	}
 	let total = 0;
 	if (quantityRes.ok) {
 		const data = await quantityRes.json();
@@ -34,6 +43,10 @@ async function loadProductsByType(typeId, page = 1) {
 			headers: { Accept: "application/json" },
 		}
 	);
+	if (res.status === 401) {
+		window.location.replace("/login");
+		return;
+	}
 	if (!res.ok) {
 		grid.innerHTML = `<span style="color:#e53e3e;">Failed to load products</span>`;
 		return;
@@ -106,7 +119,7 @@ async function loadProductsByType(typeId, page = 1) {
 							: ""
 					}
 					<img 
-						src="${urlBaseImg}/products/${product.id}.png" 
+						src="${urlBaseImg}/products/${product.id}/card.png" 
 						alt="${product.name}" 
 						style="width:100%;height:250px;object-fit:cover;object-position:center;display:block;border-radius:10px;"
 						loading="lazy"/>
@@ -144,7 +157,6 @@ function renderPagination(typeId, total, currentPage) {
 	const totalPages = Math.ceil(total / PAGE_SIZE);
 	if (totalPages <= 1) return;
 
-	const paginationDiv = document.getElementById("paginationDiv");
 	paginationDiv.innerHTML = ""; // Limpa a paginação existente
 
 	for (let i = 1; i <= totalPages; i++) {
@@ -181,6 +193,10 @@ async function loadCategories() {
 		},
 		credentials: "include",
 	});
+	if (res.status === 401) {
+		window.location.replace("/login");
+		return;
+	}
 	if (!res.ok) {
 		tabsContainer.innerHTML = `<span style="color:#e53e3e;">Failed to load categories</span>`;
 		return;
