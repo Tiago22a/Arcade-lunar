@@ -1,5 +1,6 @@
 using back_end.DTOs;
 using back_end.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace back_end.Controllers;
@@ -42,7 +43,7 @@ public class AuthController : ControllerBase
         return Ok(new { success = true }); 
     }
 
-    [HttpPost("resend-confirmation")]
+    [HttpGet("resend-confirmation")]
     public async Task<IActionResult> ResendConfirmationEmail(string userId)
     {
         ResendConfirmationDto resendConfirmationDto =
@@ -54,5 +55,12 @@ public class AuthController : ControllerBase
             resendConfirmationDto.Token);
         
         return Ok(new { success = true });
+    }
+
+    [HttpGet("check")]
+    [Authorize]
+    public IActionResult CheckLogin()
+    {
+        return NoContent();
     }
 }

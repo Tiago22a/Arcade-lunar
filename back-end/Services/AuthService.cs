@@ -60,6 +60,9 @@ public class AuthService
         User user = await _userManager.FindByEmailAsync(userId)
             ?? throw new UserNotFoundException(userId);
         
+        if (await _userManager.IsEmailConfirmedAsync(user)) 
+            throw new EmailAlreadyConfirmedException(userId); 
+        
         string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
         ResendConfirmationDto resendConfirmationDto = new ResendConfirmationDto
@@ -85,8 +88,6 @@ public class AuthService
 
     public async Task ConfirmEmail(string userId, string token)
     {
-        token = WebUtility.UrlDecode(token);
-        
         User? user = await _userManager.FindByEmailAsync(userId);
         
         if (user == null) throw new UserNotFoundException(userId);

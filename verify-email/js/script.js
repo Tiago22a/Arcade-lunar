@@ -6,8 +6,10 @@ verifyEmailButton.addEventListener("click", async function () {
 	const searchParams = new URLSearchParams(window.location.search);
 	const token = searchParams.get("token");
 	const userId = searchParams.get("userId");
+	console.log(token);
+
 	const res = await fetchClient(
-		`/auth/verify-email?token=${token}&userId=${userId}`
+		`/auth/verify-email?token=${encodeURIComponent(token)}&userId=${userId}`
 	);
 
 	if (res.status == 404 || res.status == 400 || res.status == 409) {

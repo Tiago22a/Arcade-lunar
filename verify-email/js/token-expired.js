@@ -6,14 +6,11 @@ requestButton.addEventListener("click", async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get("userId");
 
-    const res = await fetchClient("/auth/resend-confirmation", {
-        method: "POST",
-        body: JSON.stringify({ userId }),
-    });
+    const res = await fetchClient("/auth/resend-confirmation?userId=" + userId);
 
-    if (res.status == 404) {
-        window.location.reload();
-    }
+    // if (res.status == 404) {
+    //     window.location.reload();
+    // }
 
-    window.location.replace("/login");
+    // window.location.replace("/login");
 });

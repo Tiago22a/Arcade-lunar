@@ -123,6 +123,7 @@ form.addEventListener("submit", async function (event) {
 	const res = await fetchClient("/auth/login", {
 		method: "POST",
 		body: JSON.stringify(formData),
+		credentials: "include",
 	});
 
 	if (res.status === 401) {
@@ -130,7 +131,7 @@ form.addEventListener("submit", async function (event) {
 		return;
 	}
 
-	// ...continue login flow...
+	window.location.replace("/");
 });
 
 // Renderiza erros do campo
