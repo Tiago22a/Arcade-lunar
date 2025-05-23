@@ -17,55 +17,80 @@
 		<title>Best‑Selling Dropshipping Products | Spocket‑Style Store</title>
 	</head>
 	<body class="min-h-screen bg-[#0d0d0d] text-white">
-		<!-- Hero -->
 		<header
-			class="flex flex-col items-center pt-10 px-4 text-center max-w-6xl mx-auto">
-			<img
-				src="./images/WhatsApp_Image_2025-05-19_at_13.32.16-removebg-preview.png"
-				alt="logo"
-				class="w-20 h-20 mb-4 text-purple-400" />
-			<h1
-				class="text-3xl md:text-5xl font-extrabold tracking-widest uppercase">
-				Discover Best Selling Dropshipping Products on Spocket
-			</h1>
-			<p class="mt-4 text-gray-300">
-				Discover trending dropshipping products with Spocket. Tap into a
-				wide selection of hot‑selling dropshipping products from the
-				USA, EU, and worldwide markets. Spocket’s global product range
-				ensures that you can stay ahead of trends, boosting your reach
-				and profitability.
-			</p>
-		</header>
-
-		<!-- Category tabs -->
-		<nav
-			id="categoryTabs"
-			class="mt-10 flex justify-center space-x-6 text-sm md:text-base"></nav>
-
-		<!-- Products grid -->
-		<section
-			class="mt-12 px-4 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-			id="productGrid">
-			<div
-				style="
-					grid-column: 1/-1;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					min-height: 120px;
-				">
-				<span class="spinner" style="margin-right: 10px"></span>
-				<span style="color: #a78bfa; font-weight: 500"
-					>Loading products...</span
-				>
+			class="w-full bg-[#000000] p-[20px] flex justify-between items-center">
+			<div>
+				<a href="/">
+					<img
+						src="/images/logo.png"
+						class="w-[40px]"
+						alt=""
+						srcset="" />
+				</a>
 			</div>
 
-			<!-- Product Card Template (repeat as needed) -->
-			<!-- Duplicate product cards quickly via JS or copy‑paste -->
-		</section>
+			<div
+				id="cartDiv"
+				class="bg-[#733A9B] rounded-full w-[40px] h-[40px] flex justify-center items-center cursor-pointer">
+				<img
+					class="w-[20px]"
+					src="/icons/cart.svg"
+					alt="Cart"
+					srcset="" />
+			</div>
+		</header>
 
-		<!-- Pagination -->
-		<div id="paginationDiv" class="flex justify-center mt-12 space-x-2">
+		<div class="p-[20px]">
+			<header
+				class="flex flex-col items-center pt-10 px-4 text-center max-w-6xl mx-auto">
+				<img
+					src="./images/WhatsApp_Image_2025-05-19_at_13.32.16-removebg-preview.png"
+					alt="logo"
+					class="w-20 h-20 mb-4 text-purple-400" />
+				<h1
+					class="text-3xl md:text-5xl font-extrabold tracking-widest uppercase">
+					Discover Best Selling Dropshipping Products on Spocket
+				</h1>
+				<p class="mt-4 text-gray-300">
+					Discover trending dropshipping products with Spocket. Tap
+					into a wide selection of hot‑selling dropshipping products
+					from the USA, EU, and worldwide markets. Spocket’s global
+					product range ensures that you can stay ahead of trends,
+					boosting your reach and profitability.
+				</p>
+			</header>
+
+			<!-- Category tabs -->
+			<nav
+				id="categoryTabs"
+				class="mt-10 grid grid-cols-3 gap-5 sm:grid-cols-4 md:grid-cols-5 max-w-6xl mx-auto text-sm md:text-base"></nav>
+
+			<!-- Products grid -->
+			<section
+				class="mt-12 px-4 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+				id="productGrid">
+				<div
+					style="
+						grid-column: 1/-1;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						min-height: 120px;
+					">
+					<span class="spinner" style="margin-right: 10px"></span>
+					<span style="color: #a78bfa; font-weight: 500"
+						>Loading products...</span
+					>
+				</div>
+
+				<!-- Product Card Template (repeat as needed) -->
+				<!-- Duplicate product cards quickly via JS or copy‑paste -->
+			</section>
+
+			<!-- Pagination -->
+			<div
+				id="paginationDiv"
+				class="flex justify-center mt-12 space-x-2"></div>
 		</div>
 	</body>
 </html>

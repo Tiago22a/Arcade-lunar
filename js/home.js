@@ -5,12 +5,14 @@ const PAGE_SIZE = 10; // Número de produtos por página
 
 const paginationDiv = document.getElementById("paginationDiv");
 
+const cartDiv = document.getElementById("cartDiv");
+cartDiv.addEventListener("click", () => window.location.replace("/cart"));
+
 async function loadProductsByType(typeId, page = 1) {
 	const grid = document.getElementById("productGrid");
 	if (!grid) return;
 
 	paginationDiv.innerHTML = ""; // Limpa a paginação existente
-
 
 	// Mostra spinner enquanto carrega produtos
 	grid.innerHTML = `

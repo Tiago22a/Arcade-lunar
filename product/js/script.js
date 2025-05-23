@@ -66,6 +66,7 @@ const Reviews = {
 		const reviewsStars = document.querySelector(
 			"section.max-w-7xl.mx-auto.px-4.lg\\:px-8.pb-20 .text-yellow-400.text-lg"
 		);
+		reviewsStars.innerHTML = "";
 
 		const [total, { reviews }] = await Promise.all([
 			this.fetchTotal(productId),

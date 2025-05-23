@@ -1,0 +1,8 @@
+body {
+	background-color: #0d0d0d;
+	color: #fff;
+	font-family: "Poppins", sans-serif;
+}
+.btn {
+	@apply px-3 py-1 rounded font-semibold text-sm transition;
+}

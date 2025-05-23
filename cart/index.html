@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<script defer type="module" src="js/script.js"></script>
+		<script src="https://cdn.tailwindcss.com"></script>
+
+		<link rel="stylesheet" href="css/style.css" />
+
+		<title>Your Cart</title>
+	</head>
+	<body class="p-6 min-h-screen flex items-center justify-center">
+		<div class="w-full max-w-3xl">
+			<h1 class="text-4xl font-bold mb-8 text-center text-purple-400">
+				🛒 Your Cart
+			</h1>
+
+			<div id="cart-container" class="space-y-6">
+				<!-- Items will render here -->
+			</div>
+
+			<div id="cart-footer" class="mt-8 text-right hidden">
+				<p class="mb-4 text-lg text-gray-300">
+					Total: $<span id="total">0.00</span>
+				</p>
+				<button
+					onclick="checkout()"
+					class="btn btn-purple bg-red-600 hover:bg-red-700 p-2 rounded-md text-white text-lg">
+					Proceed to Checkout
+				</button>
+			</div>
+		</div>
+	</body>
+</html>
