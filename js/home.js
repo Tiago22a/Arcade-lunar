@@ -183,7 +183,7 @@ async function loadCategories() {
 
 	// Mostra spinner enquanto carrega
 	tabsContainer.innerHTML = `
-		<div id="category-spinner" style="display:flex;align-items:center;justify-content:center;height:40px;">
+		<div id="category-spinner" style="display:flex;align-items:center;justify-content:center;height:40px; position: absolute; left: 50%; transform: translateX(-50%);">
 			<span class="spinner" style="margin-right:10px;"></span>
 			<span style="color:#a78bfa;font-weight:500;">Loading categories...</span>
 		</div>
