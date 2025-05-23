@@ -36,56 +36,60 @@ function getProducts() {
 		tr.className =
 			"border-b border-[#232136] hover:bg-[#1b1a2b] transition";
 		tr.innerHTML = `
-			<td class="py-4 flex items-center gap-4 min-w-[220px]">
+			<td class="py-4 flex flex-col sm:flex-row items-start gap-2 sm:gap-4 max-w-[150px]">
 				<img src="${urlBaseImg}/products/${product.id}/card.png" alt="${
 			product.name
 		}" class="w-16 h-16 object-cover rounded-lg border border-[#35324a]" />
-				<div>
+				<div class="flex-1 w-full">
 					<div class="font-semibold text-gray-200">${product.name}</div>
 					<div class="text-xs text-gray-400">ID: ${product.id}</div>
 					<div class="text-xs text-gray-400">Category: ${product.type?.name || ""}</div>
-					<div class="text-xs text-gray-400">Qty: ${product.quantity || 1}</div>
 					<div class="text-xs mt-1">
 						<button class="text-red-400 hover:underline" onclick="removeFromCart(${
 							product.id
 						})">Remove</button>
 					</div>
+					<!-- Quantity selector below product info -->
+					<div class="flex items-center gap-2 mt-3">
+						<button class="bg-[#232136] text-purple-400 px-2 py-1 rounded hover:bg-[#2a2740]" onclick="updateQty(${
+							product.id
+						}, -1)">-</button>
+						<span class="font-bold">${product.quantity || 1}</span>
+						<button class="bg-[#232136] text-purple-400 px-2 py-1 rounded hover:bg-[#2a2740]" onclick="updateQty(${
+							product.id
+						}, 1)">+</button>
+					</div>
 				</div>
 			</td>
-			<td class="py-4 align-top">
-				${
-					product.discount && product.discount > 0
-						? `<div class="text-xs text-gray-400 line-through">R$ ${product.price.toFixed(
-								2
-						  )}</div>
-					   <div class="text-purple-400 font-bold">R$ ${price.toFixed(2)}</div>`
-						: `<div class="text-purple-400 font-bold">R$ ${price.toFixed(
-								2
-						  )}</div>`
-				}
-			</td>
-			<td class="py-4 align-top">
-				<div class="font-bold text-gray-200">R$ ${totalPrice.toFixed(2)}</div>
-			</td>
-			<td class="py-4 align-top">
-				<div class="flex items-center gap-2">
-					<button class="bg-[#232136] text-purple-400 px-2 py-1 rounded hover:bg-[#2a2740]" onclick="updateQty(${
-						product.id
-					}, -1)">-</button>
-					<span class="font-bold">${product.quantity || 1}</span>
-					<button class="bg-[#232136] text-purple-400 px-2 py-1 rounded hover:bg-[#2a2740]" onclick="updateQty(${
-						product.id
-					}, 1)">+</button>
+			<td class="py-4 align-top w-32 text-[16px] sm:w-32">
+				<div>
+					${
+						product.discount && product.discount > 0
+							? `<div class="text-xs text-gray-400 line-through">R$ ${product.price.toFixed(
+									2
+							  )}</div>
+						   <div class="text-purple-400 font-bold">R$ ${price.toFixed(2)}</div>`
+							: `<div class="text-purple-400 font-bold">R$ ${price.toFixed(
+									2
+							  )}</div>`
+					}
 				</div>
 			</td>
+			<td class="py-4 align-top w-24 text-[16px] sm:w-24">
+				<!-- Add spacing between price and total on mobile -->
+				<div class="font-bold text-gray-200">R$ ${totalPrice.toFixed(
+					2
+				)}</div>
+			</td>
+			<td class="py-4 align-top"></td>
 		`;
 		cartContainer.appendChild(tr);
 	});
 
 	if (subtotalElem) subtotalElem.textContent = `R$ ${subtotal.toFixed(2)}`;
 	if (totalElem) totalElem.textContent = `R$ ${subtotal.toFixed(2)}`;
-	if (shippingElem) shippingElem.textContent = "TBD";
-	if (taxElem) taxElem.textContent = "TBD";
+	if (shippingElem) shippingElem.textContent = "Free";
+	if (taxElem) taxElem.textContent = "None";
 }
 
 // Funções para remover e atualizar quantidade
@@ -107,3 +111,5 @@ window.updateQty = function (id, delta) {
 };
 
 getProducts();
+
+const checkoutBtn = document.getElementById("checkout-button");
