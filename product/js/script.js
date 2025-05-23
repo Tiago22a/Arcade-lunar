@@ -323,12 +323,6 @@ async function loadProduct() {
 			  product.type.name.slice(1)
 			: "";
 
-	if (buyBtn) {
-		buyBtn.onclick = () => {
-			alert(`Comprar: ${product.name}`);
-		};
-	}
-
 	await Reviews.renderPaged(productId); // <-- Troquei de loadAll para renderPaged
 }
 
@@ -405,3 +399,28 @@ async function renderProductImages(productId, product, mainImg) {
 
 // Inicialização
 loadProduct();
+
+function addToCart(productId) {
+	const cart = JSON.parse(localStorage.getItem("cart")) || {};
+	if (cart[productId]) {
+		cart[productId].quantity += 1;
+	} else {
+		cart[productId] = { quantity: 1 };
+	}
+
+	localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+const addToCartBtn = document.querySelector("#addToCartBtn");
+const buyBtn = document.querySelector("#buyBtn");
+
+buyBtn.addEventListener("click", function () {
+	addToCart(getProductIdFromUrl());
+
+	window.location.replace("/cart");
+});
+
+
+addToCartBtn.addEventListener("click", function () {
+	addToCart(getProductIdFromUrl());
+});
