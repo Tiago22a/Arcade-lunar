@@ -284,7 +284,7 @@ async function loadProduct() {
 		if (titleElem) titleElem.textContent = "Product not found";
 		return;
 	}
-	const product = await res.json();
+	product = await res.json();
 
 	await renderProductImages(productId, product, mainImg);
 
@@ -399,16 +399,34 @@ async function renderProductImages(productId, product, mainImg) {
 
 // Inicialização
 loadProduct();
+let product;
 
 function addToCart(productId) {
-	const cart = JSON.parse(localStorage.getItem("cart")) || {};
-	if (cart[productId]) {
-		cart[productId].quantity += 1;
+	let cart = JSON.parse(localStorage.getItem("cart")) || [];
+	let item = cart.find((item) => item.id.toString() == productId);
+
+	if (!item) {
+		item = product;
+		item.quantity = 1;
+
+		cart.push(item);
 	} else {
-		cart[productId] = { quantity: 1 };
+		item.quantity += 1;
 	}
 
 	localStorage.setItem("cart", JSON.stringify(cart));
+
+	// item.quantity += 1;
+	// localStorage.setItem("cart", JSON.stringify(cart));
+
+	// if (cartProduct) {
+	// 	cartProduct.quantity += 1;
+	// } else {
+	// 	product.quantity = 1;
+	// 	cart.push(product);
+	// }
+
+	// localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 const addToCartBtn = document.querySelector("#addToCartBtn");
@@ -419,7 +437,6 @@ buyBtn.addEventListener("click", function () {
 
 	window.location.replace("/cart");
 });
-
 
 addToCartBtn.addEventListener("click", function () {
 	addToCart(getProductIdFromUrl());

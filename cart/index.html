@@ -3,34 +3,103 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 		<script defer type="module" src="js/script.js"></script>
 		<script src="https://cdn.tailwindcss.com"></script>
-
 		<link rel="stylesheet" href="css/style.css" />
-
 		<title>Your Cart</title>
 	</head>
-	<body class="p-6 min-h-screen flex items-center justify-center">
-		<div class="w-full max-w-3xl">
-			<h1 class="text-4xl font-bold mb-8 text-center text-purple-400">
-				🛒 Your Cart
-			</h1>
-
-			<div id="cart-container" class="space-y-6">
-				<!-- Items will render here -->
+	<body class="bg-[#0D0D0D] min-h-screen text-gray-100">
+		<header
+			class="w-full bg-[#000000] p-[20px] flex justify-between items-center">
+			<div>
+				<a href="/">
+					<img
+						src="/images/logo.png"
+						class="w-[40px]"
+						alt=""
+						srcset="" />
+				</a>
 			</div>
 
-			<div id="cart-footer" class="mt-8 text-right hidden">
-				<p class="mb-4 text-lg text-gray-300">
-					Total: $<span id="total">0.00</span>
-				</p>
+			<div
+				id="cartDiv"
+				class="bg-[#733A9B] rounded-full w-[40px] h-[40px] flex justify-center items-center cursor-pointer">
+				<img
+					class="w-[20px]"
+					src="/icons/cart.svg"
+					alt="Cart"
+					srcset="" />
+			</div>
+		</header>
+		<main
+			class="w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-8 px-2 p-10">
+			<!-- Cart Table -->
+			<section class="flex-1 bg-[#232136] rounded-xl shadow-lg p-6">
+				<h1
+					class="text-2xl font-bold mb-6 text-purple-400 tracking-wide">
+					My Cart
+				</h1>
+				<div>
+					<table class="w-full text-left">
+						<thead>
+							<tr
+								class="border-b border-[#35324a] text-gray-400 text-xs uppercase">
+								<th class="py-2">Product</th>
+								<th class="py-2">Price</th>
+								<th class="py-2">Total</th>
+								<th class="py-2"></th>
+							</tr>
+						</thead>
+						<tbody id="cart-container">
+							<!-- ...other items via JS... -->
+						</tbody>
+					</table>
+				</div>
+				<div
+					id="empty-cart-message"
+					class="text-center text-gray-400 mt-12 hidden">
+					Your cart is empty.
+				</div>
+			</section>
+			<!-- Summary -->
+			<aside
+				class="w-full md:w-80 bg-[#232136] rounded-xl shadow-lg p-6 flex flex-col gap-4 h-fit">
+				<h2
+					class="text-lg font-bold text-gray-200 mb-2 border-b border-[#35324a] pb-2">
+					Summary
+				</h2>
+				<div class="flex justify-between text-gray-300 text-sm">
+					<span>Subtotal</span>
+					<span id="subtotal">R$ 0.00</span>
+				</div>
+				<div class="flex justify-between text-gray-300 text-sm">
+					<span>Shipping</span>
+					<span id="shipping">TBD</span>
+				</div>
+				<div class="flex justify-between text-gray-300 text-sm mb-2">
+					<span>Taxes</span>
+					<span id="tax">TBD</span>
+				</div>
+				<div
+					class="flex justify-between text-lg font-bold text-purple-400 border-t border-[#35324a] pt-4">
+					<span>Total</span>
+					<span id="total">R$ 0.00</span>
+				</div>
 				<button
 					onclick="checkout()"
-					class="btn btn-purple bg-red-600 hover:bg-red-700 p-2 rounded-md text-white text-lg">
-					Proceed to Checkout
+					class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg text-white text-lg font-semibold shadow transition mt-4">
+					Checkout
 				</button>
-			</div>
-		</div>
+				<div
+					class="text-xs text-gray-400 mt-4 border-t border-[#35324a] pt-3">
+					Questions?
+					<a
+						href="tel:11999999999"
+						class="text-purple-400 hover:underline"
+						>Contact us</a
+					>
+				</div>
+			</aside>
+		</main>
 	</body>
 </html>

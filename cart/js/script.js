@@ -1,91 +1,109 @@
-// Limpa o carrinho apenas na primeira vez
-if (!localStorage.getItem("cartInitialized")) {
-	localStorage.removeItem("cart");
-	localStorage.setItem("cartInitialized", "true");
-}
+import { urlBaseImg } from "../../shared/util/geral.js";
 
-let cart = {};
+function getProducts() {
+	const cart = JSON.parse(localStorage.getItem("cart")) || [];
+	const cartContainer = document.getElementById("cart-container");
+	const subtotalElem = document.getElementById("subtotal");
+	const totalElem = document.getElementById("total");
+	const shippingElem = document.getElementById("shipping");
+	const taxElem = document.getElementById("tax");
+	const emptyMsg = document.getElementById("empty-cart-message");
 
-try {
-	cart = JSON.parse(localStorage.getItem("cart")) || {};
-} catch {
-	cart = {};
-}
+	if (!cartContainer) return;
 
-const container = document.getElementById("cart-container");
-const footer = document.getElementById("cart-footer");
-const totalEl = document.getElementById("total");
+	cartContainer.innerHTML = "";
 
-function renderCart() {
-	container.innerHTML = "";
-	let total = 0;
-	const items = Object.values(cart);
-
-	if (items.length === 0) {
-		container.innerHTML = `<p class="text-center text-gray-500">Your cart is empty.</p>`;
-		footer.classList.add("hidden");
-		localStorage.setItem("cart", JSON.stringify(cart)); // atualiza localStorage mesmo se vazio
+	if (cart.length === 0) {
+		if (emptyMsg) emptyMsg.classList.remove("hidden");
+		if (subtotalElem) subtotalElem.textContent = "R$ 0.00";
+		if (totalElem) totalElem.textContent = "R$ 0.00";
 		return;
+	} else {
+		if (emptyMsg) emptyMsg.classList.add("hidden");
 	}
 
-	let html = "";
-	items.forEach((item) => {
-		const subtotal = item.price * item.qty;
-		total += subtotal;
+	let subtotal = 0;
 
-		html += `
-          <div class="bg-[#1a1a1a] p-4 rounded flex justify-between items-center shadow">
-            <div class="flex items-center gap-4">
-              <img src="${item.image || ""}" alt="${
-			item.name
-		}" class="w-16 h-16 object-contain rounded bg-black" />
-              <div>
-                <h3 class="font-bold">${item.name}</h3>
-                <p class="text-sm text-gray-400">$${item.price.toFixed(2)} × ${
-			item.qty
-		}</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-2">
-              <button onclick="changeQty('${
-					item.id
-				}', -1)" class="text-white">–</button>
-              <span>${item.qty}</span>
-              <button onclick="changeQty('${
-					item.id
-				}', 1)" class="btn btn-purple text-white">+</button>
-              <button onclick="removeItem('${
-					item.id
-				}')" class="bg-red-600 hover:bg-red-700 p-2 rounded text-white">Remove</button>
-            </div>
-          </div>
-        `;
+	cart.forEach((product) => {
+		const price =
+			product.discount && product.discount > 0
+				? product.price - (product.discount / 100) * product.price
+				: product.price;
+		const totalPrice = price * (product.quantity || 1);
+		subtotal += totalPrice;
+
+		const tr = document.createElement("tr");
+		tr.className =
+			"border-b border-[#232136] hover:bg-[#1b1a2b] transition";
+		tr.innerHTML = `
+			<td class="py-4 flex items-center gap-4 min-w-[220px]">
+				<img src="${urlBaseImg}/products/${product.id}/card.png" alt="${
+			product.name
+		}" class="w-16 h-16 object-cover rounded-lg border border-[#35324a]" />
+				<div>
+					<div class="font-semibold text-gray-200">${product.name}</div>
+					<div class="text-xs text-gray-400">ID: ${product.id}</div>
+					<div class="text-xs text-gray-400">Category: ${product.type?.name || ""}</div>
+					<div class="text-xs text-gray-400">Qty: ${product.quantity || 1}</div>
+					<div class="text-xs mt-1">
+						<button class="text-red-400 hover:underline" onclick="removeFromCart(${
+							product.id
+						})">Remove</button>
+					</div>
+				</div>
+			</td>
+			<td class="py-4 align-top">
+				${
+					product.discount && product.discount > 0
+						? `<div class="text-xs text-gray-400 line-through">R$ ${product.price.toFixed(
+								2
+						  )}</div>
+					   <div class="text-purple-400 font-bold">R$ ${price.toFixed(2)}</div>`
+						: `<div class="text-purple-400 font-bold">R$ ${price.toFixed(
+								2
+						  )}</div>`
+				}
+			</td>
+			<td class="py-4 align-top">
+				<div class="font-bold text-gray-200">R$ ${totalPrice.toFixed(2)}</div>
+			</td>
+			<td class="py-4 align-top">
+				<div class="flex items-center gap-2">
+					<button class="bg-[#232136] text-purple-400 px-2 py-1 rounded hover:bg-[#2a2740]" onclick="updateQty(${
+						product.id
+					}, -1)">-</button>
+					<span class="font-bold">${product.quantity || 1}</span>
+					<button class="bg-[#232136] text-purple-400 px-2 py-1 rounded hover:bg-[#2a2740]" onclick="updateQty(${
+						product.id
+					}, 1)">+</button>
+				</div>
+			</td>
+		`;
+		cartContainer.appendChild(tr);
 	});
 
-	container.innerHTML = html;
-	totalEl.innerText = total.toFixed(2);
-	footer.classList.remove("hidden");
+	if (subtotalElem) subtotalElem.textContent = `R$ ${subtotal.toFixed(2)}`;
+	if (totalElem) totalElem.textContent = `R$ ${subtotal.toFixed(2)}`;
+	if (shippingElem) shippingElem.textContent = "TBD";
+	if (taxElem) taxElem.textContent = "TBD";
+}
+
+// Funções para remover e atualizar quantidade
+window.removeFromCart = function (id) {
+	let cart = JSON.parse(localStorage.getItem("cart")) || [];
+	cart = cart.filter((p) => p.id !== id);
 	localStorage.setItem("cart", JSON.stringify(cart));
-}
+	getProducts();
+};
 
-function changeQty(id, delta) {
-	if (cart[id]) {
-		cart[id].qty += delta;
-		if (cart[id].qty <= 0) delete cart[id];
-		renderCart();
+window.updateQty = function (id, delta) {
+	let cart = JSON.parse(localStorage.getItem("cart")) || [];
+	const idx = cart.findIndex((p) => p.id === id);
+	if (idx !== -1) {
+		cart[idx].quantity = Math.max(1, (cart[idx].quantity || 1) + delta);
+		localStorage.setItem("cart", JSON.stringify(cart));
+		getProducts();
 	}
-}
+};
 
-function removeItem(id) {
-	delete cart[id];
-	localStorage.setItem("cart", JSON.stringify(cart)); // **Atualiza localStorage aqui!**
-	renderCart();
-}
-
-function checkout() {
-	const payload = Object.values(cart);
-	console.log("Send to backend:", payload);
-	alert("Checkout simulated.\nCheck console for payload.");
-}
-
-renderCart();
+getProducts();
