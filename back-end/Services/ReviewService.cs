@@ -27,7 +27,7 @@ public class ReviewService
             throw new ProductNotFoundException(productId);
 
         var reviews = await _context.Reviews
-            .OrderBy(r => Guid.NewGuid())
+            .OrderByDescending(r => r.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .Select(r => new ShowReviewDto
@@ -62,5 +62,29 @@ public class ReviewService
         await _context.SaveChangesAsync();
 
         return review.Id;
+    }
+
+    public async Task<int> GetReviewsQuantityByProduct(int productId)
+    {
+        if (!(await _context.Products.AnyAsync(p => p.Id == productId)))
+            throw new ProductNotFoundException(productId);
+        
+        int quantity = await _context.Reviews
+            .Where(r => r.Product.Id == productId)
+            .CountAsync();
+        
+        return quantity;
+    }
+
+    public async Task<decimal> GetAverageRatingOfProduct(int productId)
+    {
+        if (!(await _context.Products.AnyAsync(p => p.Id == productId)))
+            throw new ProductNotFoundException(productId);
+        
+        decimal averageRating = await _context.Reviews
+            .Where(r => r.Product.Id == productId)
+            .AverageAsync(r => r.Rating);
+        
+        return averageRating;
     }
 }

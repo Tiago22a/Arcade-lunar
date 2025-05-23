@@ -17,7 +17,13 @@ export default async function fetchClient(url, options) {
 			...(options?.headers || {}),
 		},
 		...options,
+		credentials: "include",
 	});
+
+	if (res.status === 401) {
+		// Redirect to login page if unauthorized
+		window.location.href = "/login";
+	}
 
 	return res;
 }

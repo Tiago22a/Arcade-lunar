@@ -38,5 +38,20 @@ public class ReviewController : ControllerBase
         
         return Ok(reviews);
     }
-    
+
+    [HttpGet("product/{id}/quantity")]
+    public async Task<IActionResult> GetReviewsQuantityByProduct(int id)
+    {
+        int quantity = await _reviewService.GetReviewsQuantityByProduct(id);
+        
+        return Ok(quantity);   
+    }
+
+    [HttpGet("product/{id}/average")]
+    public async Task<IActionResult> GetAverageRatingOfProduct(int id)
+    {
+        decimal averageRating = await _reviewService.GetAverageRatingOfProduct(id);
+        
+        return Ok(averageRating);  
+    }
 }
