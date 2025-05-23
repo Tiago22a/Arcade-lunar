@@ -25,7 +25,6 @@ public class ProductTypeController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
     public IActionResult GetTypes()
     {
         var listProductTypesDto = _productTypeService.GetAllProductTypes();

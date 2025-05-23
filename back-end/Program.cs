@@ -43,6 +43,7 @@ builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ProductTypeService>();
+builder.Services.AddScoped<ReviewService>();
 
 builder.Services.AddSingleton<MercadoPagoService>();
 
