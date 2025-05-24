@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Arcade Lunar - Checkout</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script defer src="https://sdk.mercadopago.com/js/v2"></script>
+		<script defer type="module" src="js/script.js"></script>
+	</head>
+	<body class="bg-[#0D0D0D] min-h-screen text-gray-100">
+		<header
+			class="w-full bg-[#000000] p-5 flex justify-between items-center">
+			<div>
+				<a href="/">
+					<img
+						src="/images/logo.png"
+						class="w-[40px]"
+						alt="Arcade Lunar Logo" />
+				</a>
+			</div>
+			<div
+				id="cartDiv"
+				class="bg-[#733A9B] rounded-full w-[40px] h-[40px] flex justify-center items-center cursor-pointer">
+				<img class="w-[20px]" src="/icons/cart.svg" alt="Cart" />
+			</div>
+		</header>
+		<main
+			class="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-8 px-4 py-10">
+			<!-- Checkout Form -->
+			<section
+				class="flex-1 bg-[#232136] rounded-xl shadow-lg p-6 mb-8 md:mb-0">
+				<h1
+					class="text-2xl font-bold mb-6 text-purple-400 tracking-wide">
+					Checkout
+				</h1>
+				<form id="checkout-form" class="space-y-6">
+					<div>
+						<label
+							class="block text-gray-300 mb-1 font-semibold"
+							for="country"
+							>Country/Region</label
+						>
+						<select
+							id="country"
+							name="country"
+							required
+							class="w-full px-4 py-2 rounded bg-[#161522] text-gray-200 border border-[#35324a] focus:outline-none focus:ring-2 focus:ring-purple-400 transition">
+							<option value="">Select...</option>
+							<option value="BR">Brazil</option>
+							<option value="US">United States</option>
+							<option value="PT">Portugal</option>
+							<!-- Add more countries as needed -->
+						</select>
+					</div>
+
+					<div>
+						<label
+							class="block text-gray-300 mb-1 font-semibold"
+							for="address"
+							>Address</label
+						>
+						<input
+							id="address"
+							name="address"
+							type="text"
+							required
+							class="w-full px-4 py-2 rounded bg-[#161522] text-gray-200 border border-[#35324a] focus:outline-none focus:ring-2 focus:ring-purple-400 transition" />
+					</div>
+					<div class="flex flex-col sm:flex-row gap-4">
+						<div class="flex-1">
+							<label
+								class="block text-gray-300 mb-1 font-semibold"
+								for="city"
+								>City</label
+							>
+							<input
+								id="city"
+								name="city"
+								type="text"
+								required
+								class="w-full px-4 py-2 rounded bg-[#161522] text-gray-200 border border-[#35324a] focus:outline-none focus:ring-2 focus:ring-purple-400 transition" />
+						</div>
+						<div class="flex-1">
+							<label
+								class="block text-gray-300 mb-1 font-semibold"
+								for="zip"
+								>ZIP/Postal code</label
+							>
+							<input
+								id="zip"
+								name="zip"
+								type="text"
+								required
+								class="w-full px-4 py-2 rounded bg-[#161522] text-gray-200 border border-[#35324a] focus:outline-none focus:ring-2 focus:ring-purple-400 transition" />
+						</div>
+					</div>
+					<div>
+						<button
+							type="submit"
+							class="w-full bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg text-white text-lg font-semibold shadow transition mt-2">
+							Continue to Payment
+						</button>
+					</div>
+				</form>
+				<!-- Mercado Pago Button -->
+				<div class="mt-8">
+					<div
+						id="wallet-loading"
+						class="flex items-center justify-center py-6">
+						<span class="animate-spin mr-2 text-purple-400 text-xl"
+							>⏳</span
+						>
+						<span class="text-gray-400"
+							>Loading payment options...</span
+						>
+					</div>
+					<div id="walletBrick_container" class="hidden"></div>
+				</div>
+			</section>
+			<!-- Order Summary -->
+			<aside
+				class="w-full md:w-96 bg-[#232136] rounded-xl shadow-lg p-6 flex flex-col gap-4 h-fit">
+				<h2
+					class="text-lg font-bold text-gray-200 mb-2 border-b border-[#35324a] pb-2">
+					Order Summary
+				</h2>
+				<div id="checkout-products" class="flex flex-col gap-4">
+					<!-- JS will render products here -->
+				</div>
+				<div class="flex justify-between text-gray-300 text-sm mt-4">
+					<span>Subtotal</span>
+					<span id="summary-subtotal">R$ 0.00</span>
+				</div>
+				<div class="flex justify-between text-gray-300 text-sm">
+					<span>Shipping</span>
+					<span id="summary-shipping">Free</span>
+				</div>
+				<div
+					class="flex justify-between text-lg font-bold text-purple-400 border-t border-[#35324a] pt-4">
+					<span>Total</span>
+					<span id="summary-total">R$ 0.00</span>
+				</div>
+			</aside>
+		</main>
+	</body>
+</html>

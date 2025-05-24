@@ -14,5 +14,6 @@ public class OrderItem
     public Product? Product { get; set; }
     
     [Required]
+    [JsonIgnore]
     public Order? Order { get; set; }
 }

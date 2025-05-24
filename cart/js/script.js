@@ -1,6 +1,8 @@
 import { urlBaseImg } from "../../shared/util/geral.js";
 import fetchClient from "../../shared/util/fetchClient.js";
 
+const PUBLIC_KEY = "APP_USR-fd35b4c6-d231-4c17-88fa-437dcc01c44f";
+
 function getProducts() {
 	const cart = JSON.parse(localStorage.getItem("cart")) || [];
 	const cartContainer = document.getElementById("cart-container");
@@ -131,6 +133,7 @@ checkoutBtn.addEventListener("click", async function () {
 		method: "POST",
 		body: JSON.stringify(bodyJson),
 	});
+	const data = await res.json();
 
 	if (res.status === 404) {
 		const cartSection = document.querySelector("section.flex-1");
@@ -147,9 +150,10 @@ checkoutBtn.addEventListener("click", async function () {
 	}
 
 	// ...existing code for success or other errors...
-	if (res.status === 200) {
-		localStorage.removeItem("cart");
-		window.location.replace("/payment");
+	if (res.status === 201) {
+		window.location.replace(
+			"/checkout/?preferenceId=" + data.mercadoPagoPreferenceId
+		);
 	} else {
 		const cartSection = document.querySelector("section.flex-1");
 		if (cartSection) {

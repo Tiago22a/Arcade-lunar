@@ -26,18 +26,8 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> Create(ICollection<CreateOrderItemDto> orderItems)
     {
         string userEmail = User.FindFirstValue(ClaimTypes.Email)!;
-        int orderId = await _orderService.CreateOrder(orderItems, userEmail);
+        ShowOrderDto orderDto = await _orderService.CreateOrder(orderItems, userEmail);
         
-        return Created($"/order/{orderId}", orderItems);
-    }
-
-    [HttpGet("{id}/preference")]
-    [Authorize]
-    public async Task<IActionResult> GetOrderPreference(int id)
-    {
-        string userEmail = User.FindFirstValue(ClaimTypes.Email)!;
-        string preferenceId = await _orderService.GetOrderPreference(id, userEmail);
-        
-        return Ok(preferenceId);
+        return Created($"/order/{orderDto.Id}", orderDto);
     }
 }

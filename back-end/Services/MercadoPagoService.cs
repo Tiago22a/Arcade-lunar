@@ -8,6 +8,7 @@ public class MercadoPagoService
 {
     public async Task<Preference> CreatePreference(ICollection<OrderItem> orderItems)
     {
+        
         var request = new PreferenceRequest
         {
             Items = orderItems.Select(oi => new PreferenceItemRequest
@@ -15,7 +16,7 @@ public class MercadoPagoService
                 Title = oi.Product?.Name,
                 Quantity = oi.Quantity,
                 CurrencyId = "BRL",
-                UnitPrice = oi.Product?.Price - oi.Product?.Price * oi.Product?.Discount,
+                UnitPrice = oi.Product?.Price - oi.Product?.Price * (oi.Product?.Discount / 100),
             }).ToList(),
             // BackUrls = new PreferenceBackUrlsRequest
             // {

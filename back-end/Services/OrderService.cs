@@ -24,21 +24,33 @@ public class OrderService
         _mercadoPagoService = mercadoPagoService;
     }
 
-    public async Task<int> CreateOrder(
+    public async Task<ShowOrderDto> CreateOrder(
         ICollection<CreateOrderItemDto> orderItems,
         string userEmail)
     {
         User user = await _userManager.FindByEmailAsync(userEmail)
                      ?? throw new UserNotFoundException(userEmail);
 
+        var productsIds = orderItems
+            .Select(oi => oi.ProductId)
+            .ToList();
+        
+        var products = await _context.Products
+            .Where(p => productsIds.Contains(p.Id))
+            .ToDictionaryAsync(p => p.Id);
+        
         // Existe para buscar os itens do pedido de forma assíncrona. 
-        var resolvedOrderItems = await Task.WhenAll(
-            orderItems.Select(async oi => new OrderItem
+        var resolvedOrderItems = orderItems.Select(oi =>
+        {
+            if (!products.TryGetValue(oi.ProductId, out var product))
+                throw new ProductNotFoundException(oi.ProductId);
+
+            return new OrderItem
             {
                 Quantity = oi.Quantity,
-                Product = await _context.Products.FindAsync(oi.ProductId)
-                ?? throw new ProductNotFoundException(oi.ProductId),
-            }).ToList());
+                Product = product
+            };
+        }).ToList();
 
         var preference = await _mercadoPagoService.CreatePreference(resolvedOrderItems);
         
@@ -48,7 +60,6 @@ public class OrderService
             Status = "payment_pending",
             DateCreated = DateTime.Now,
             OrderItems = resolvedOrderItems,
-            MercadoPagoPreferenceId = preference.Id,
             TotalPrice = resolvedOrderItems.Sum(oi => 
                 oi.Product!.Discount != null 
                 && oi.Product.Discount > 0 
@@ -59,18 +70,10 @@ public class OrderService
         await _context.Orders.AddAsync(order);
         await _context.SaveChangesAsync();
 
-        return order.Id;
-    }
-
-    public async Task<string> GetOrderPreference(int id, string userEmail)
-    {
-        var user = await _userManager.FindByEmailAsync(userEmail)
-            ?? throw new UserNotFoundException(userEmail);
-
-        var order = await _context.Orders.FirstOrDefaultAsync(o =>
-                        o.Id == id && o.User == user)
-                    ?? throw new OrderNotFoundException(id);
-        
-        return order.MercadoPagoPreferenceId;
+        return new ShowOrderDto
+        {
+            Id = order.Id,
+            MercadoPagoPreferenceId = preference.Id,
+        };
     }
 }
