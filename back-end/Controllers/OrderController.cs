@@ -30,4 +30,14 @@ public class OrderController : ControllerBase
         
         return Created($"/order/{orderId}", orderItems);
     }
+
+    [HttpGet("{id}/preference")]
+    [Authorize]
+    public async Task<IActionResult> GetOrderPreference(int id)
+    {
+        string userEmail = User.FindFirstValue(ClaimTypes.Email)!;
+        string preferenceId = await _orderService.GetOrderPreference(id, userEmail);
+        
+        return Ok(preferenceId);
+    }
 }

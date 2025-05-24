@@ -14,16 +14,16 @@ public class MercadoPagoService
             {
                 Title = oi.Product?.Name,
                 Quantity = oi.Quantity,
-                CurrencyId = "USD",
+                CurrencyId = "BRL",
                 UnitPrice = oi.Product?.Price - oi.Product?.Price * oi.Product?.Discount,
             }).ToList(),
-            AutoReturn = "approved",
-            BackUrls = new PreferenceBackUrlsRequest
-            {
-                Success = "https://tiago22a.github.io/Arcade-lunar/home/",
-                Failure = "https://tiago22a.github.io/Arcade-lunar/home/",
-                Pending = "https://tiago22a.github.io/Arcade-lunar/home/"
-            }
+            // BackUrls = new PreferenceBackUrlsRequest
+            // {
+            //     Success = "http://localhost:5500/payment/approved.html",
+            //     Failure = "http://localhost:5500/payment/refused.html",
+            //     Pending = "http://localhost:5500/payment/pending.html"
+            // },
+            // AutoReturn = "approved",
         };
 
         var client = new PreferenceClient();

@@ -1,4 +1,5 @@
 import { urlBaseImg } from "../../shared/util/geral.js";
+import fetchClient from "../../shared/util/fetchClient.js";
 
 function getProducts() {
 	const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -77,9 +78,7 @@ function getProducts() {
 			</td>
 			<td class="py-4 align-top w-24 text-[16px] sm:w-24">
 				<!-- Add spacing between price and total on mobile -->
-				<div class="font-bold text-gray-200">R$ ${totalPrice.toFixed(
-					2
-				)}</div>
+				<div class="font-bold text-gray-200">R$ ${totalPrice.toFixed(2)}</div>
 			</td>
 			<td class="py-4 align-top"></td>
 		`;
@@ -112,4 +111,40 @@ window.updateQty = function (id, delta) {
 
 getProducts();
 
-const checkoutBtn = document.getElementById("checkout-button");
+const checkoutBtn = document.getElementById("checkoutBtn");
+checkoutBtn.addEventListener("click", async function () {
+	const cart = JSON.parse(localStorage.getItem("cart")) || [];
+	if (cart.length === 0) {
+		return;
+	}
+
+	// Remove erro anterior, se houver
+	let errorElem = document.getElementById("cart-error-message");
+	if (errorElem) errorElem.remove();
+
+	const bodyJson = cart.map((product) => ({
+		productId: product.id,
+		quantity: product.quantity || 1,
+	}));
+
+	const res = await fetchClient("/order", {
+		method: "POST",
+		body: JSON.stringify(bodyJson),
+	});
+
+	if (res.status === 404) {
+		const cartSection = document.querySelector("section.flex-1");
+		if (cartSection) {
+			const errorDiv = document.createElement("div");
+			errorDiv.id = "cart-error-message";
+			errorDiv.className =
+				"bg-red-500/10 border border-red-500 text-red-400 rounded-lg px-4 py-3 mb-4 mt-2 text-center font-semibold";
+			errorDiv.textContent =
+				"One of the products in your cart was not found.";
+			cartSection.prepend(errorDiv);
+		}
+		return;
+	}
+
+	// ...existing code for success or other errors...
+});

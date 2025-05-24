@@ -4,6 +4,7 @@ using back_end.Exceptions;
 using back_end.Models;
 using MercadoPago.Resource.Preference;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace back_end.Services;
 
@@ -47,12 +48,29 @@ public class OrderService
             Status = "payment_pending",
             DateCreated = DateTime.Now,
             OrderItems = resolvedOrderItems,
-            MercadoPagoPreferenceId = preference.Id
+            MercadoPagoPreferenceId = preference.Id,
+            TotalPrice = resolvedOrderItems.Sum(oi => 
+                oi.Product!.Discount != null 
+                && oi.Product.Discount > 0 
+                    ? oi.Product.Price - oi.Product.Price * oi.Product.Discount
+                    : oi.Product.Price),
         };
 
         await _context.Orders.AddAsync(order);
         await _context.SaveChangesAsync();
 
         return order.Id;
+    }
+
+    public async Task<string> GetOrderPreference(int id, string userEmail)
+    {
+        var user = await _userManager.FindByEmailAsync(userEmail)
+            ?? throw new UserNotFoundException(userEmail);
+
+        var order = await _context.Orders.FirstOrDefaultAsync(o =>
+                        o.Id == id && o.User == user)
+                    ?? throw new OrderNotFoundException(id);
+        
+        return order.MercadoPagoPreferenceId;
     }
 }
