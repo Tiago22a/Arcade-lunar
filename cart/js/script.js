@@ -147,4 +147,19 @@ checkoutBtn.addEventListener("click", async function () {
 	}
 
 	// ...existing code for success or other errors...
+	if (res.status === 200) {
+		localStorage.removeItem("cart");
+		window.location.replace("/payment");
+	} else {
+		const cartSection = document.querySelector("section.flex-1");
+		if (cartSection) {
+			const errorDiv = document.createElement("div");
+			errorDiv.id = "cart-error-message";
+			errorDiv.className =
+				"bg-red-500/10 border border-red-500 text-red-400 rounded-lg px-4 py-3 mb-4 mt-2 text-center font-semibold";
+			errorDiv.textContent =
+				"An error occurred while processing your order. Please try again.";
+			cartSection.prepend(errorDiv);
+		}
+	}
 });
